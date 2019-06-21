@@ -41,6 +41,7 @@ class Building(dict):
         self.address_3 = raw['ADDRESS_3']
         self.zip_code = self.address_3
         # Building status.  Example:  OPEN, CLOSED
+        # This does not appear to ever be updated and remains OPEN
         self.status = raw['STATUS']
         self.open = (self.status == 'OPEN')
         self.closed = not self.open
@@ -99,8 +100,9 @@ class YaleBuildings:
         """
         Generate a request to the API and fetch data within a given date range.
 
-        :param building_id: ID of building to get data on. You may wish to use Yale's Building API to find an ID.
-        :param start_date: date to start sampling from. Can be a string or datetime/date object, or year/month tuple.
-        :param end_date: date to end sampling at. Formatting is the same as start_date. If not specified, today.
+        :param id: ID of building to get data on. You may wish to use Yale's Building API to find an ID.
         """
         self.retrieve()
+        for building in self.data:
+            if building.id == id:
+                return building

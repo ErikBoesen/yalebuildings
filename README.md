@@ -1,6 +1,6 @@
 # yalebuildings [![PyPI version](https://badge.fury.io/py/yalebuildings.svg)](https://badge.fury.io/py/yalebuildings)
 
-> Python library for interfacing with the Yale Energy Data API.
+> Python library for interfacing with the Yale Buildings API.
 
 [API documentation](https://developers.yale.edu/buildings)
 
