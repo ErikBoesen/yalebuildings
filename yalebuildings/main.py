@@ -25,8 +25,9 @@ class Building(dict):
         self.id = raw['BUILDING']
         # Building abbreviation.  Example:  LFOP
         self.abbreviation = raw['BUILDING_ABBR']
-        # Building description.  Example:  LEITNER OBSV &amp; PLANET.
+        # Building description.  Example:  LEITNER OBSV & PLANET.
         self.description = raw['DESCRIPTION']
+        self.name = self.description
         # Building usage description.  Example:  ACADEMIC
         self.category = raw.get('USAGE_DESCRIPTION')
         # TODO: use better names?
