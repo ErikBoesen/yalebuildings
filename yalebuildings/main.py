@@ -1,9 +1,23 @@
 import requests
 
 
-class Building(_base):
+class Building(dict):
+    def _vet_float(self, raw):
+        if type(raw) == str:
+            return float(raw)
+        return None
+
+    def _tokenize_city(self, raw):
+        if type(raw) == str:
+            return raw.split(', ')
+        return ('NEW HAVEN', 'CT')
+
     def __init__(self, raw):
-        self.update(json)
+        for key in raw:
+            # Vet out values that are randomly empty arrays
+            if raw[key] == []:
+                raw[key] = None
+        self.update(raw)
         self.update(self.__dict__)
 
         self.site = raw['SITE']
@@ -21,7 +35,7 @@ class Building(_base):
         self.street_address = self.address_1
         # Building city and state.  Example:  NEW HAVEN, CT
         self.address_2 = raw['ADDRESS_2']
-        self.city, self.state = self.address_2.split(', ')
+        self.city, self.state = self._tokenize_city(self.address_2)
         # Building zip code.  Example:  06511
         self.address_3 = raw['ADDRESS_3']
         self.zip_code = self.address_3
@@ -30,16 +44,16 @@ class Building(_base):
         self.open = (self.status == 'OPEN')
         self.closed = not self.open
         # Building historical alias.  Example:  CIA CARPENTRY SHOP, UNDERGRAD OBSERVATORY
-        self.historical_alias = raw['HISTORICAL_ALIAS']
+        self.historical_alias = raw.get('HISTORICAL_ALIAS')
         # Other building address.  Example:  355 PROSPECT STREET
-        self.street_address_alias = raw['ADDR1_ALIAS']
+        self.street_address_alias = raw.get('ADDR1_ALIAS')
         # Messaging alias.  Example:  PROSPECT ST, 355
-        self.messaging_alias = raw['MSAG_ALIAS']
-        self.latitude = float(raw['LATITUDE'])
-        self.longitude = float(raw['LONGITUDE'])
+        self.messaging_alias = raw.get('MSAG_ALIAS')
+        self.latitude = self._vet_float(raw.get('LATITUDE'))
+        self.longitude = self._vet_float(raw.get('LONGITUDE'))
         # Building historical name.  Example:  Roth Autitorium for Culinary Inst of America
-        self.historical_name = raw['HISTORICAL NAME']
-        self.prose = raw['BUILDING PROSE']
+        self.historical_name = raw.get('HISTORICAL NAME')
+        self.prose = raw.get('BUILDING PROSE')
 
 
 class YaleBuildings:

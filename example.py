@@ -5,4 +5,4 @@ import os
 api = yalebuildings.YaleBuildings(os.environ['YALE_API_TOKEN'])
 
 for building in api.buildings():
-    print(building['BUILDING'])
+    print(building['BUILDING'], end=' ')
