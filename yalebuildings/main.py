@@ -53,7 +53,8 @@ class Building(dict):
         self.messaging_alias = raw.get('MSAG_ALIAS')
         self.latitude = self._vet_float(raw.get('LATITUDE'))
         self.longitude = self._vet_float(raw.get('LONGITUDE'))
-        self.coordinates = f'({self.latitude}, {self.longitude})' if self.longitude and self.latitude else None
+        self.coordinates = '({lat}, {lon})'.format(lat=self.latitude,
+                                                   lon=self.longitude) if self.latitude and self.longitude else None
         # Building historical name.  Example:  Roth Autitorium for Culinary Inst of America
         self.historical_name = raw.get('HISTORICAL NAME')
         self.prose = raw.get('BUILDING PROSE')
